@@ -84,17 +84,17 @@ class KeycloakResourceOwner implements ResourceOwnerInterface, UserInterface
      *
      * @return array<string>
      */
-    private function getRealRoles(): ?array
+    private function getRealmRoles(): array
     {
-        return $this->response['realm_access']['roles'] ?? null;
+        return $this->response['realm_access']['roles'] ?? [];
     }
 
     /**
      * Get client roles.
      *
-     * @return array<string>|null
+     * @return array<string>
      */
-    private function getClientRoles(?string $client_id = null): ?array
+    private function getClientRoles(?string $client_id = null): array
     {
         $roles = [];
 
@@ -120,7 +120,7 @@ class KeycloakResourceOwner implements ResourceOwnerInterface, UserInterface
      */
     public function getRoles(?string $client_id = null): array
     {
-        $roles = $this->getRealRoles();
+        $roles = $this->getRealmRoles();
 
         return [...$roles, ...$this->getClientRoles($client_id)];
     }
